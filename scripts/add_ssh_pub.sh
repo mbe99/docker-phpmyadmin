@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # hier den eigenen public-key eintragen
-public_key='hier zwischen den Hochkomma ihren SSH public-key eintragen, er startet mit ssh-rsa .... '
+public_key='hier tragen sie zwischen den Hochkomma ihren SSH public-key ein, er startet mit ssh-rsa .... '
 
 # add public key for usr vagrant
 echo $public_key >> /home/vagrant/.ssh/authorized_keys
