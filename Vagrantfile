@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 #
-#	Ubuntu Bionic 64-bit Linux mit Docker
+#	Ubuntu Jammy 64-bit Linux mit Docker
 #
 
 Vagrant.configure("2") do |config|
