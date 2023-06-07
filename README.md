@@ -16,7 +16,7 @@ Vagrant VM mit Docker. Die VM kann als Basis für Docker Konfigurationen eingese
 
 ### Personalisieren
 
-Im File `scripts\add_ssh_pub.sh` können sie ihre persönlichen Public-Keys hinterlegen. Diesen tragen sie einfach wie unten dargestellt zwischen den Hochkommas `' ... '` ein. Dabei verwenden sie ihren eignene *public_key*.
+Im File `scripts\add_ssh_pub.sh` können sie ihre persönlichen Public-Keys hinterlegen. Diesen tragen sie einfach wie unten dargestellt zwischen den Hochkommas `' ... '` ein. Dabei verwenden sie ihren eigenen *public_key*.
 
 ```
 #!/bin/sh
@@ -37,11 +37,11 @@ echo $public_key >> /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorize
 ```
 
 
-> **WICHTIG:** Den *public_key* müssen sie eintragen, **bevor** sie die VM mit `vagrant up` starten 
+> **WICHTIG:** Den *public_key* müssen sie eintragen **bevor** sie die VM mit `vagrant up` starten 
 
 ### Netzwerk
 
-Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Diese kann auch in den Einstellungen der VirtualBox eingesehen werden.
+Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Die Weiterleitung kann ebenfalls in den Einstellungen der VirtualBox eingesehen werden.
 
   |Verwendung| Host| VM | 
   |:--:|:--:|:--:|
@@ -59,7 +59,7 @@ Ziel ist es, die Umgebung so "bequem" wie möglich einzurichten. Dazu zählt ins
 1) Starten sie die VM mit `vagrant up`
 2) Testen sie die VM, indem sie sich mit `vagrant ssh` einloggen
    1) mit `sudo su -` auf den *root* Account switchen
-   2) mit `docker ps` prüfen ob die Docker Umgebung läuft. Wenn alles gurt ist, siehrt der Output wie folgt aus
+   2) mit `docker ps` prüfen, ob die Docker Umgebung läuft. Ist alles gut, sieht der Output wie folgt aus:
 
 ```
 root@docker:/mnt/phpmyadmin# docker ps
@@ -75,20 +75,82 @@ In den folgenden Abschnitten richten wir einen grafischen SSH/SFTP Client ein. W
 Wir führen folgende Schritte aus:
 
 1. Client Installieren
-2. SSH Key Pair einrichten 
-3. SSH-Session auf Linux-VM einrichten
-4. OpenSSH Public Key exportieren
+2. SSH-Key Pair einrichten 
+3. OpenSSH Public Key exportieren
+4. Profile für *Vagrant Login* erstellen
+5. SSH-Session auf Linux-VM öffnen
 
-SSH-Session auf Linux-VM einrichten
+### SSH-Key Pair einrichten
+
+Nachdem der Client installiert ist, erstellen sie als Erstes ein SSH-Key Pair
+
+> Das SSH-Key Pair wird unabhängig von den bereits erstellten Keys gespeichert. <br>
+> Wir verwenden diese ausschliesslich zum Einloggen auf der Vagrant-VM.
+
+![KeyPair erstellen](images/bw_0.png)
+
+Auf `Client key manager` Klicken
+
+![Client key manager](images/bw_1.png) 
+
+und anschliessend `Generate New` anklicken.
+
+![KeyPair erstellen](images/bw_2.png) 
+
+Wie bereits beim SSH-Key Pair, welches wir unter der *GIT Bash* erstellt hatten, lassen wir das Passwort für den Key frei.
+
+![KeyPair erstellen](images/bw_3.png)
+
+Ein *RSA* Key wurde nun unter dem *Profile 1* erstellt. Aus diesem exportieren wir im nächsten Schritt einen *OpenSSH public Key* und speichern diesen ab. 
+
+> Der *public Key* kann jederzeit erneut aus dem *privat Key* exportiert werden.
+
+![public key exportieren](images/bw_4.png) 
+
+Nachdem nun die SSH-Key erstellt sind, können wir ein neues Profil zum Verbinden auf unsere Vagrant-VM erstellen. Dazu klicken wir `New profile` an
+
+![KeyPair erstellen](images/bw_5.png) 
+
+1. die Felder im grünen Rahmen wie dargestellt ausfüllen
+2. Das Profil abspeichern damit sie es später wieder verwenden können
+3. Nun können wir mit `Log in` die SSH Verbindung zur Vagrant-VM starten
+
+> Anmerkung: Vagrant erstellt beim Starten automatisch ein Portforwarding vom SSH Port 22 auf Port 2222. <br>
+> Laufen gleichzeitig mehrere Vagrant VMs, so wählt Vagrant entsprechend den nächsthöheren Port.
 
 
+> Sie können den verwendeten Port mit dem Kommando `vagrant port` ermitteln
+
+```
+$ vagrant port
+The forwarded ports for the machine are listed below. Please note that
+these values may differ from values configured in the Vagrantfile if the
+provider supports automatic port collision detection and resolution.
+
+    22 (guest) => 2222 (host)
+  8082 (guest) => 8082 (host)
+```
+
+![Profil definieren](images/bw_7.png) 
+
+Nachdem Verbinden öffnet sich ein *ssh* und *ftps* Fenster. 
+
+> Unter `Options` können sie einstellen ob automatisch *ssh* und *ftps* Fenster gestartet werden.
+
+Sie können nun auch weitere *ssh* oder *ftps* Fenster öffnen.
+
+![Weitere Fenster öffnen](images/bw_8.png) 
+
+Sie sind nun unter dem User *root* auf der Linux VM eingeloggt. 
+
+![Terminal](images/bw_9.png) 
 
 
 ## Docker
 
 ### Anwendung *phpMyAdmin*
 
-Wir starten nun unsere erste Container Basierte Applikation auf dieser VM. Diese besteht aus zwei Container mit folgenden Applikationen:
+Wir starten nun unsere erste Container Basierte Applikation in der Linux-VM. Diese besteht aus zwei Container mit folgenden Applikationen:
 
 * MySQL Datenbank
 * phpMyAdmin
@@ -112,13 +174,19 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 8f5526028d72   mysql:5.7               "docker-entrypoint.s…"   12 minutes ago   Up 12 minutes   3306/tcp, 33060/tcp                     db
 ```
 
-Alles klar? Gratuliere - sie haben erfolgreich eine Container basierende Applikation erstellt.
+Alles klar? Gratuliere - sie haben erfolgreich eine auf Container basierende Applikation erstellt.
 
 Sie können nun unter [localhost:8082](localhost:8082) auf die Applikation zugreifen und mit **root** und Passwort **top-secret** einloggen.
 
 ## Aufräumen
 
 Führen sie einfach `vagrant destroy -f ` aus und die ganze Installation ist wieder weg. Sie wissen ja nun, wie schnell und einfach sie alles wieder erstellt haben :-)
+
+## Zusammenfassung
+
+Wenn sie alle Schritte erfolgreich durchgeführt haben, verfügen sie nun über eine funktionierende, mit ihrem *ssh public Key* personalisierter Docker-Container Umgebung, die auf **IaC** basiert. Das heisst, sie können die Umgebung jederzeit wieder neu erstellen.
+
+Die verwendeten Docker Befehle werden zu einem späteren Zeitpunkt erläutert.
 
 
 
