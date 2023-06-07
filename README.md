@@ -16,7 +16,7 @@ Vagrant VM mit Docker. Die VM kann als Basis für Docker Konfigurationen eingese
 
 ### Personalisieren
 
-Im File `scripts\add_ssh_pub.sh` können sie ihre persönlichen Public-Keys hinterlegen. Diesen tragen sie einfach wie unten dargestellt zwichen den Hochkommas `'` ein. Dabei verwenden sie natürlich ihren eignene *public_key*.
+Im File `scripts\add_ssh_pub.sh` können sie ihre persönlichen Public-Keys hinterlegen. Diesen tragen sie einfach wie unten dargestellt zwischen den Hochkommas `' ... '` ein. Dabei verwenden sie ihren eignene *public_key*.
 
 ```
 #!/bin/sh
@@ -52,8 +52,7 @@ Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Diese kann auch in 
 
 ## Umgebung einrichten
 
-Ziel ist es, die Umgebung so "bequem" wie möglich einzurichten. Dazu zählt insbesondere, dass wir auf einfach Art in die *Linux-VM* einloggen und dort Files erstellen und modifizieren können. Im Folgenden wird deshalb ein Weg (von vielen) aufgezeigt, wie von einem Windows-System in einer Linux-VM gearbeitet werden kann. Natürlich ersetzt das nicht die grundlegend nötigen Linux Kenntnisse, aber es erleichtert zumindest die Arbeit. Gute Hilfestellungen zu Linux finden sie 
-auf der [Tux Academy][1]
+Ziel ist es, die Umgebung so "bequem" wie möglich einzurichten. Dazu zählt insbesondere, dass wir auf einfach Art in die *Linux-VM* einloggen und dort Files erstellen und modifizieren können. Im Folgenden wird deshalb ein Weg (von vielen) aufgezeigt, wie von einem Windows-System in einer Linux-VM gearbeitet werden kann. Natürlich ersetzt das nicht die grundlegenden Linux Kenntnisse, aber es erleichtert zumindest die Arbeit. Gute Hilfestellungen zu Linux finden sie auf der [Tux Academy][1].
 
 ### VM starten
 
@@ -66,33 +65,35 @@ auf der [Tux Academy][1]
 root@docker:/mnt/phpmyadmin# docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
-3) mit `exit` und nochmals `exit` verlassen sie die VM wieder und sind somit wieder auf dem *Windows" System.
+3) mit `exit` und nochmals `exit` verlassen sie die VM wieder und sind somit wieder auf dem *Windows* System.
 
 
-## SSH - Client
+## SSH-Client
 
-Im folgenden Abschnitte richten wir einen grafischen SSH/SFTP Client ein. Wir verwenden dazu den opensource [Bitvise][2] Client.
+In den folgenden Abschnitten richten wir einen grafischen SSH/SFTP Client ein. Wir verwenden dazu den *opensource* [Bitvise][2] Client. Der Client ermöglicht einen einfachen Zugang zur Linux-VM und bietet zusätzlich die Möglichkeit, Files mit Hilfe des grafischen FTPS-Clients zwischen Windows und Linux zu transferieren. 
 
-Wir führen Schritte aus
+Wir führen folgende Schritte aus:
 
-1) Client Installieren
-2) SSH Key Pair einrichten 
-3) SSH Session auf Vagrant VM einrichten
-4) OpenSSH Public Key exportieren
+1. Client Installieren
+2. SSH Key Pair einrichten 
+3. SSH-Session auf Linux-VM einrichten
+4. OpenSSH Public Key exportieren
+
+SSH-Session auf Linux-VM einrichten
 
 
 
 
 ## Docker
 
-## erste Docker Anwendung *phpMyAdmin*
+### Anwendung *phpMyAdmin*
 
 Wir starten nun unsere erste Container Basierte Applikation auf dieser VM. Diese besteht aus zwei Container mit folgenden Applikationen:
 
 * MySQL Datenbank
 * phpMyAdmin
 
-Zum starten der Container führen sie folgende Kommandos aus:
+Zum Starten der Container führen sie folgende Kommandos aus:
 
 **MySQL**
 
@@ -101,6 +102,23 @@ Zum starten der Container führen sie folgende Kommandos aus:
 **phpMyAdmin**
 
 `docker run -d --link db --name webserver -p 8082:80 phpmyadmin/phpmyadmin`
+
+Nun können sie mit dem `docker ps` Kommando überprüfen, ob die beiden Container gestartet wurden. Sie sollten einen Output in der Art wie untenstehendn sehen:
+
+```
+root@docker:/mnt/phpmyadmin# docker ps
+CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+630946b8e250   phpmyadmin/phpmyadmin   "/docker-entrypoint.…"   11 minutes ago   Up 11 minutes   0.0.0.0:8082->80/tcp, :::8082->80/tcp   webserver
+8f5526028d72   mysql:5.7               "docker-entrypoint.s…"   12 minutes ago   Up 12 minutes   3306/tcp, 33060/tcp                     db
+```
+
+Alles klar? Gratuliere - sie haben erfolgreich eine Container basierende Applikation erstellt.
+
+Sie können nun unter [localhost:8082](localhost:8082) auf die Applikation zugreifen und mit **root** und Passwort **top-secret** einloggen.
+
+## Aufräumen
+
+Führen sie einfach `vagrant destroy -f ` aus und die ganze Installation ist wieder weg. Sie wissen ja nun, wie schnell und einfach sie alles wieder erstellt haben :-)
 
 
 
