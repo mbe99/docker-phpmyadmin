@@ -1,3 +1,7 @@
+
+[1]: https://www.tuxcademy.org/download/de/adm1/adm1-de-manual.pdf "Tux Academy"
+[2]: https://www.bitvise.com/ssh-client-download "Bitvise SSH/SFTP Client"
+
 # Vagrant VM mit Docker
 
 ## Umgebung
@@ -37,7 +41,7 @@ echo $public_key >> /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorize
 
 ### Netzwerk
 
-Die Die TCP-Portweiterleitung ist wie folgt konfiguriert
+Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Diese kann auch in den Einstellungen der VirtualBox eingesehen werden.
 
   |Verwendung| Host| VM | 
   |:--:|:--:|:--:|
@@ -48,7 +52,8 @@ Die Die TCP-Portweiterleitung ist wie folgt konfiguriert
 
 ## Umgebung einrichten
 
-Ziel ist es, die Umgebung so "bequem" wie möglich einzurichten. Dazu zählt insbesondere, dass wir auf einfach Art in die *Linux-VM* einloggen und dort Files erstellen und modifiziren können. 
+Ziel ist es, die Umgebung so "bequem" wie möglich einzurichten. Dazu zählt insbesondere, dass wir auf einfach Art in die *Linux-VM* einloggen und dort Files erstellen und modifizieren können. Im Folgenden wird deshalb ein Weg (von vielen) aufgezeigt, wie von einem Windows-System in einer Linux-VM gearbeitet werden kann. Natürlich ersetzt das nicht die grundlegend nötigen Linux Kenntnisse, aber es erleichtert zumindest die Arbeit. Gute Hilfestellungen zu Linux finden sie 
+auf der [Tux Academy][1]
 
 ### VM starten
 
@@ -64,6 +69,16 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 3) mit `exit` und nochmals `exit` verlassen sie die VM wieder und sind somit wieder auf dem *Windows" System.
 
 
+## SSH - Client
+
+Im folgenden Abschnitte richten wir einen grafischen SSH/SFTP Client ein. Wir verwenden dazu den opensource [Bitvise][2] Client.
+
+Wir führen Schritte aus
+
+1) Client Installieren
+2) SSH Key Pair einrichten 
+3) SSH Session auf Vagrant VM einrichten
+4) OpenSSH Public Key exportieren
 
 
 
