@@ -2,6 +2,11 @@
 
 # Bitvise SSH-Client
 
+[Bitvise SSH-Client installieren](#bitvise-ssh-client-installieren)
+[SSH-Key Pair einrichten und public Key exportieren](#ssh-key-pair-einrichten-und-public-key-exportieren)
+ 
+
+
 In den folgenden Abschnitten richten wir einen grafischen SSH/SFTP Client ein. Wir verwenden dazu den *opensource* [Bitvise][2] Client. Der Client ermöglicht einen einfachen Zugang zur Linux-VM und bietet zusätzlich die Möglichkeit, Files mit Hilfe des grafischen FTPS-Clients zwischen Windows und Linux zu transferieren. 
 
 Wir führen folgende Schritte aus:
