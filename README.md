@@ -4,7 +4,23 @@
 
 # Vagrant VM mit Docker
 
-## Umgebung
+- [Vagrant VM mit Docker](#vagrant-vm-mit-docker)
+  - [IaC Umgebung](#iac-umgebung)
+    - [VM Eigenschaften](#vm-eigenschaften)
+    - [Netzwerk Konfiguration](#netzwerk-konfiguration)
+  - [SSH Client vorbereiten](#ssh-client-vorbereiten)
+    - [IaC personalisieren](#iac-personalisieren)
+  - [Umgebung einrichten](#umgebung-einrichten)
+    - [VM starten](#vm-starten)
+    - [Einloggen it dem SSH-Client](#einloggen-it-dem-ssh-client)
+- [Übungen](#übungen)
+  - [Docker](#docker)
+    - [Anwendung *phpMyAdmin*](#anwendung-phpmyadmin)
+  - [Cleanup](#cleanup)
+  - [Zusammenfassung](#zusammenfassung)
+  
+
+## IaC Umgebung
 
 Im folgenden erstellen wir eine Vagrant-VM mit einer installierten Docker Runtime Umgebung. Die VM kann als Basis für die **Docker-Konfigurationen der LB2** eingesetzt werden. 
 
@@ -16,7 +32,7 @@ Im folgenden erstellen wir eine Vagrant-VM mit einer installierten Docker Runtim
 * Vorbereitet SSH-Logins für *root*
 * Shared `/mnt` Verzeichnis 
 
-### Netzwerk
+### Netzwerk Konfiguration
 
 Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Die Weiterleitung kann ebenfalls in den Einstellungen der VirtualBox eingesehen werden.
 
@@ -25,14 +41,14 @@ Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Die Weiterleitung k
   |ssh| 2222| 22 |
   |Web|8082|8082|
 
-## Vorbereitung
+## SSH Client vorbereiten
 
 Installieren und konfigurieren sie den [SSH Bitvise][2] Client anhand [dieser Anleitung](Bitvise.md).
 
 Nachdem sie den *SSH-Client* konfiguriert haben, geht es im Kapitel [Personalisieren](#personalisieren) weiter.
 
 
-### Personalisieren
+### IaC personalisieren
 
 Im File `scripts\add_ssh_pub.sh` können sie ihre persönlichen Public-Keys hinterlegen. Diesen tragen sie einfach wie unten dargestellt zwischen den Hochkommas `' ... '` ein. Dabei verwenden sie ihren eigenen *public_key*.
 
@@ -156,7 +172,7 @@ Alles klar? Gratuliere - sie haben erfolgreich eine auf Container basierende App
 
 Sie können nun unter [localhost:8082](localhost:8082) auf die Applikation zugreifen und mit **root** und Passwort **top-secret** einloggen.
 
-## Aufräumen
+## Cleanup
 
 Führen sie einfach `vagrant destroy -f ` aus und die ganze Installation ist wieder weg. Sie wissen ja nun, wie schnell und einfach sie alles wieder erstellt haben :-)
 

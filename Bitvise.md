@@ -55,12 +55,13 @@ Nun können wir ein neues Profil zum Verbinden auf unsere Vagrant-VM erstellen. 
 ![KeyPair erstellen](images/bw_5.png) 
 
 1. die Felder im grünen Rahmen wie dargestellt ausfüllen
-2. Das Profil abspeichern damit sie es später wieder verwenden können
-   
-> Anmerkung: Vagrant erstellt beim Starten automatisch ein Portforwarding vom SSH Port 22 auf Port 2222. <br>
-> Laufen gleichzeitig mehrere Vagrant VMs, so wählt Vagrant entsprechend einen alternativen freien Port.
+2. Das Profil abspeichern um es später wieder verwenden können
 
 ![Profil definieren](images/bw_7.png) 
 
+> **Anmerkung:** Vagrant erstellt beim Starten automatisch ein Port-Weiterleitung vom **SSH Port 22 auf Port 2222.**<br>
+> Laufen gleichzeitig mehrere Vagrant VMs, so wählt Vagrant einen *alternativen* freien Port.
+
+Weiter gehts [[README.md | #cleanup]]
 
  
