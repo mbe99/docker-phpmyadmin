@@ -6,17 +6,37 @@
 
 ## Umgebung
 
-Vagrant VM mit Docker. Die VM kann als Basis für Docker Konfigurationen eingesetzt werden. 
+Im folgenden erstellen wir eine Vagrant-VM mit einer installierten Docker Runtime Umgebung. Die VM kann als Basis für die **Docker-Konfigurationen der LB2** eingesetzt werden. 
 
 ### VM Eigenschaften
 
 * Ubuntu Jammy 64
 * 2 GB Memory
 * User - vagrant
+* Vorbereitet SSH-Logins für *root*
+* Shared `/mnt` Verzeichnis 
+
+### Netzwerk
+
+Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Die Weiterleitung kann ebenfalls in den Einstellungen der VirtualBox eingesehen werden.
+
+  |Verwendung| Host| VM | 
+  |:--:|:--:|:--:|
+  |ssh| 2222| 22 |
+  |Web|8082|8082|
+
+## Vorbereitung
+
+Installieren und konfigurieren sie den [SSH Bitvise][2] Client anhand [dieser Anleitung](Bitvise.md).
+
+Nachdem sie den *SSH-Client* konfiguriert haben, geht es im Kapitel [Personalisieren](#personalisieren) weiter.
+
 
 ### Personalisieren
 
 Im File `scripts\add_ssh_pub.sh` können sie ihre persönlichen Public-Keys hinterlegen. Diesen tragen sie einfach wie unten dargestellt zwischen den Hochkommas `' ... '` ein. Dabei verwenden sie ihren eigenen *public_key*.
+
+> Ihren **Public-Key** haben sie im im Schritt [Vorbereitung](#vorbereitung) erstellt.
 
 ```
 #!/bin/sh
@@ -37,89 +57,42 @@ echo $public_key >> /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorize
 ```
 
 
-> **WICHTIG:** Den *public_key* müssen sie eintragen **bevor** sie die VM mit `vagrant up` starten 
+> **WICHTIG:** Den *Public_key* müssen sie eintragen, **bevor** sie die VM mit `vagrant up` starten 
 
-### Netzwerk
-
-Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Die Weiterleitung kann ebenfalls in den Einstellungen der VirtualBox eingesehen werden.
-
-  |Verwendung| Host| VM | 
-  |:--:|:--:|:--:|
-  |ssh| 2222| 22 |
-  |Web|8082|8082|
-
-# Übungen
+<br>
 
 ## Umgebung einrichten
 
-Ziel ist es, die Umgebung so "bequem" wie möglich einzurichten. Dazu zählt insbesondere, dass wir auf einfach Art in die *Linux-VM* einloggen und dort Files erstellen und modifizieren können. Im Folgenden wird deshalb ein Weg (von vielen) aufgezeigt, wie von einem Windows-System in einer Linux-VM gearbeitet werden kann. Natürlich ersetzt das nicht die grundlegenden Linux Kenntnisse, aber es erleichtert zumindest die Arbeit. Gute Hilfestellungen zu Linux finden sie auf der [Tux Academy][1].
+Das Ziel ist es, die Umgebung so "bequem" wie möglich einzurichten. Dazu zählt insbesondere, dass wir auf einfach Art in die *Linux-VM* einloggen und dort Files erstellen und modifizieren können. Im Folgenden wird ein Weg (von vielen) aufgezeigt, wie "bequem" von einem Windows-System in einer Linux-VM gearbeitet werden kann. Natürlich ersetzt das nicht grundlegenden Linux Kenntnisse, aber es erleichtert zumindest die Arbeit.<br><br>Gute Hilfestellungen zu Linux finden sie auf der [Tux Academy][1].
 
 ### VM starten
 
 1) Starten sie die VM mit `vagrant up`
-2) Testen sie die VM, indem sie sich mit `vagrant ssh` einloggen
+2) Testen sie die VM, indem sie mit `vagrant ssh` einloggen
    1) mit `sudo su -` auf den *root* Account switchen
    2) mit `docker ps` prüfen, ob die Docker Umgebung läuft. Ist alles gut, sieht der Output wie folgt aus:
 
 ```
-root@docker:/mnt/phpmyadmin# docker ps
+root@docker:~# docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
-3) mit `exit` und nochmals `exit` verlassen sie die VM wieder und sind somit wieder auf dem *Windows* System.
+3) Mit `exit` und nochmals `exit` verlassen sie die VM wieder und sind somit wieder auf dem *Windows* System.
 
+<br>
 
-## SSH-Client
+---
 
-In den folgenden Abschnitten richten wir einen grafischen SSH/SFTP Client ein. Wir verwenden dazu den *opensource* [Bitvise][2] Client. Der Client ermöglicht einen einfachen Zugang zur Linux-VM und bietet zusätzlich die Möglichkeit, Files mit Hilfe des grafischen FTPS-Clients zwischen Windows und Linux zu transferieren. 
+### Einloggen it dem SSH-Client
 
-Wir führen folgende Schritte aus:
+1. Laden sie nun das vorgängig gespeicherte Profil
+2. Nun können sie mit `Log in` die SSH-Verbindung zur Vagrant-VM starten
 
-1. Client Installieren
-2. SSH-Key Pair einrichten 
-3. OpenSSH Public Key exportieren
-4. Profile für *Vagrant Login* erstellen
-5. SSH-Session auf Linux-VM öffnen
+![Profil definieren](images/bw_10.png) 
 
-### SSH-Key Pair einrichten
+> **Anmerkung:** Vagrant erstellt beim Starten automatisch ein Port-Weiterleitung vom **SSH Port 22 auf Port 2222.**<br>
+> Laufen gleichzeitig mehrere Vagrant VMs, so wählt Vagrant einen *alternativen* freien Port.
 
-Nachdem der Client installiert ist, erstellen sie als Erstes ein SSH-Key Pair
-
-> Das SSH-Key Pair wird unabhängig von den bereits erstellten Keys gespeichert. <br>
-> Wir verwenden diese ausschliesslich zum Einloggen auf der Vagrant-VM.
-
-![KeyPair erstellen](images/bw_0.png)
-
-Auf `Client key manager` Klicken
-
-![Client key manager](images/bw_1.png) 
-
-und anschliessend `Generate New` anklicken.
-
-![KeyPair erstellen](images/bw_2.png) 
-
-Wie bereits beim SSH-Key Pair, welches wir unter der *GIT Bash* erstellt hatten, lassen wir das Passwort für den Key frei.
-
-![KeyPair erstellen](images/bw_3.png)
-
-Ein *RSA* Key wurde nun unter dem *Profile 1* erstellt. Aus diesem exportieren wir im nächsten Schritt einen *OpenSSH public Key* und speichern diesen ab. 
-
-> Der *public Key* kann jederzeit erneut aus dem *privat Key* exportiert werden.
-
-![public key exportieren](images/bw_4.png) 
-
-Nachdem nun die SSH-Key erstellt sind, können wir ein neues Profil zum Verbinden auf unsere Vagrant-VM erstellen. Dazu klicken wir `New profile` an
-
-![KeyPair erstellen](images/bw_5.png) 
-
-1. die Felder im grünen Rahmen wie dargestellt ausfüllen
-2. Das Profil abspeichern damit sie es später wieder verwenden können
-3. Nun können wir mit `Log in` die SSH Verbindung zur Vagrant-VM starten
-
-> Anmerkung: Vagrant erstellt beim Starten automatisch ein Portforwarding vom SSH Port 22 auf Port 2222. <br>
-> Laufen gleichzeitig mehrere Vagrant VMs, so wählt Vagrant entsprechend den nächsthöheren Port.
-
-
-> Sie können den verwendeten Port mit dem Kommando `vagrant port` ermitteln
+> Sie können den aktuell verwendeten Port mit dem Kommando `vagrant port` ermitteln.<br>Passen sie falls nötig den Port in der Bitvise Konfiguration an.
 
 ```
 $ vagrant port
@@ -131,22 +104,27 @@ provider supports automatic port collision detection and resolution.
   8082 (guest) => 8082 (host)
 ```
 
-![Profil definieren](images/bw_7.png) 
+War der das Verbinden erfolgreich, öffnen sich zwei Fenster
+* Ein SSH-Terminal
+* Ein Filetransfer GUI 
 
-Nachdem Verbinden öffnet sich ein *ssh* und *ftps* Fenster. 
+![Terminal](images/bw_12.png) 
 
-> Unter `Options` können sie einstellen ob automatisch *ssh* und *ftps* Fenster gestartet werden.
+> Unter `Options` können sie einstellen, welche Fenster beim Verbinden automatisch geöffnet werden.
 
-Sie können nun auch weitere *ssh* oder *ftps* Fenster öffnen.
+Sie können beliebig weitere *ssh* oder *ftps* Sessions öffnen.
 
 ![Weitere Fenster öffnen](images/bw_8.png) 
 
-Sie sind nun unter dem User *root* auf der Linux VM eingeloggt. 
+Wenn bis zu diesem Punkt alles funktioniert hat, sind sie bestens für die weiteren Schritte mit Docker vorbereitet.
 
-![Terminal](images/bw_9.png) 
+<br><br>
 
+# Übungen
 
 ## Docker
+
+Die folgenden Schritte erfolgen in der Vagrant-VM unter dem *root* Account. Als Docker-Einstiegsübung werden wir eine funktionierende **phpMyAdmin** Installation durchführen. Das geht ganz schnell und einfach - versprochen :-)
 
 ### Anwendung *phpMyAdmin*
 
@@ -157,15 +135,15 @@ Wir starten nun unsere erste Container Basierte Applikation in der Linux-VM. Die
 
 Zum Starten der Container führen sie folgende Kommandos aus:
 
-**MySQL**
+*MySQL*
 
 ` docker run -d --name db -v /tmp/data/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD='top-secret' mysql:5.7`
 
-**phpMyAdmin**
+*phpMyAdmin*
 
 `docker run -d --link db --name webserver -p 8082:80 phpmyadmin/phpmyadmin`
 
-Nun können sie mit dem `docker ps` Kommando überprüfen, ob die beiden Container gestartet wurden. Sie sollten einen Output in der Art wie untenstehendn sehen:
+Nun können sie mit dem `docker ps` Kommando überprüfen, ob die beiden Container gestartet wurden. Sie sollten einen Output in der Art wie untenstehenden sehen:
 
 ```
 root@docker:/mnt/phpmyadmin# docker ps
