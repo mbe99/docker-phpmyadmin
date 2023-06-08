@@ -22,7 +22,7 @@
 
 ## IaC Umgebung
 
-Im folgenden erstellen wir eine Vagrant-VM mit einer installierten Docker Runtime Umgebung. Die VM kann als Basis für die **Docker-Konfigurationen der LB2** eingesetzt werden. 
+Im folgenden erstellen wir eine Vagrant-VM mit einer installierten Docker Runtime Umgebung. Die VM kann als Basis für die **Docker-Konfigurationen der LB2** verwendet werden. 
 
 ### VM Eigenschaften
 
