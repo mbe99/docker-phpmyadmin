@@ -2,18 +2,17 @@
 
 # Bitvise SSH-Client
 
-[Bitvise SSH-Client installieren](#bitvise-ssh-client-installieren)
-[SSH-Key Pair einrichten und public Key exportieren](#ssh-key-pair-einrichten-und-public-key-exportieren)
+- [Bitvise SSH-Client](#bitvise-ssh-client)
+  - [Bitvise SSH-Client installieren](#bitvise-ssh-client-installieren)
+  - [SSH-Key Pair einrichten und public Key exportieren](#ssh-key-pair-einrichten-und-public-key-exportieren)
+  - [*Vagrant Login* Profil erstellen](#vagrant-login-profil-erstellen)
  
+---
 
 
-In den folgenden Abschnitten richten wir einen grafischen SSH/SFTP Client ein. Wir verwenden dazu den *opensource* [Bitvise][2] Client. Der Client ermöglicht einen einfachen Zugang zur Linux-VM und bietet zusätzlich die Möglichkeit, Files mit Hilfe des grafischen FTPS-Clients zwischen Windows und Linux zu transferieren. 
+In den folgenden Abschnitten richten wir einen grafischen SSH/SFTP Client ein. Wir verwenden dazu den *opensource* [Bitvise][2] Client. Der Client ermöglicht einen einfachen Zugang zur Linux-VM und ermöglicht es, Files zwischen Windows und Linux zu transferieren. 
 
-Wir führen folgende Schritte aus:
 
-* Client Installieren
-* SSH-Key Pair einrichten und OpenSSH Public Key exportieren
-* Profile für *Vagrant Login* erstellen
 
 ---
 
@@ -25,7 +24,7 @@ Laden sie den Installer von [Bitvise][2] und führen das Setup mit den standard 
 
 ## SSH-Key Pair einrichten und public Key exportieren
 
-Nachdem der Client installiert ist, erstellen sie als Erstes ein SSH-Key Pair
+Nachdem der Client installiert ist, erstellen sie ein SSH-Key Pair. Dieser wird für den passwortfreien Login auf die Linux-VM benötigt.
 
 > Das SSH-Key Pair wird unabhängig von den bereits erstellten Keys gespeichert. <br>
 > Wir verwenden diese ausschliesslich zum Einloggen auf der Vagrant-VM.
@@ -53,7 +52,7 @@ Ein *RSA* Key wurde nun unter dem *Profile 1* erstellt. Aus diesem exportieren w
 
 ---
 
-## Profile für *Vagrant Login* erstellen
+## *Vagrant Login* Profil erstellen
 
 Nun können wir ein neues Profil zum Verbinden auf unsere Vagrant-VM erstellen. Dazu klicken wir `New profile` an
 
@@ -67,6 +66,7 @@ Nun können wir ein neues Profil zum Verbinden auf unsere Vagrant-VM erstellen. 
 > **Anmerkung:** Vagrant erstellt beim Starten automatisch ein Port-Weiterleitung vom **SSH Port 22 auf Port 2222.**<br>
 > Laufen gleichzeitig mehrere Vagrant VMs, so wählt Vagrant einen *alternativen* freien Port.
 
-Weiter gehts [[README.md | #cleanup]]
+<br><br>
+Weiter gehts [hier](README.md)
 
  

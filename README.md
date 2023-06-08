@@ -12,7 +12,7 @@
     - [IaC personalisieren](#iac-personalisieren)
   - [Umgebung einrichten](#umgebung-einrichten)
     - [VM starten](#vm-starten)
-    - [Einloggen it dem SSH-Client](#einloggen-it-dem-ssh-client)
+    - [Mit dem SSH-Client einloggen](#mit-dem-ssh-client-einloggen)
 - [Übungen](#übungen)
   - [Docker](#docker)
     - [Anwendung *phpMyAdmin*](#anwendung-phpmyadmin)
@@ -98,7 +98,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 ---
 
-### Einloggen it dem SSH-Client
+### Mit dem SSH-Client einloggen
 
 1. Laden sie nun das vorgängig gespeicherte Profil
 2. Nun können sie mit `Log in` die SSH-Verbindung zur Vagrant-VM starten
