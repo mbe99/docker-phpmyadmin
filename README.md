@@ -34,18 +34,20 @@ Im folgenden erstellen wir eine Vagrant-VM mit einer installierten Docker Runtim
 
 ### Netzwerk Konfiguration
 
-Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. Die Weiterleitung kann ebenfalls in den Einstellungen der VirtualBox eingesehen werden.
+Die TCP-Portweiterleitung der VM ist wie folgt konfiguriert. 
 
   |Verwendung| Host| VM | 
   |:--:|:--:|:--:|
   |ssh| 2222| 22 |
   |Web|8082|8082|
 
+Die Weiterleitung kann ebenfalls in den Einstellungen der VirtualBox eingesehen werden.  
+
 ## SSH Client vorbereiten
 
 Installieren und konfigurieren sie den [SSH Bitvise][2] Client anhand [dieser Anleitung](Bitvise.md).
 
-Nachdem sie den *SSH-Client* konfiguriert haben, geht es im Kapitel [Personalisieren](#personalisieren) weiter.
+Nachdem sie den *SSH-Client* konfiguriert haben, geht es mit [IaC personalisieren](#iac-personalisieren) weiter.
 
 
 ### IaC personalisieren
