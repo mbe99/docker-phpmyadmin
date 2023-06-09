@@ -172,7 +172,7 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 
 Alles klar? Gratuliere - sie haben erfolgreich eine auf Container basierende Applikation erstellt.
 
-Sie können nun unter [localhost:8082](localhost:8082) auf die Applikation zugreifen und mit **root** und Passwort **top-secret** einloggen.
+Sie können nun unter [localhost:8082](https://localhost:8082) auf die Applikation zugreifen und mit **root** und Passwort **top-secret** einloggen.
 
 ## Cleanup
 
